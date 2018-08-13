@@ -1,34 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GuidReverse
 {
-    class Program
+    public class Program
     {
-        public static Guid ReverseGuid(Guid guid)
+        private static Guid ReverseGuid(Guid guid)
         {
-            string string1 = guid.ToString().Replace("-", "");
-            char[] charArray = string1.ToCharArray();
+            var guidStringWithoutDashes = guid.ToString().Replace("-", string.Empty);
+
+            // Решение
+            //var reversedGuidString = guidStringWithoutDashes.Reverse();
+            //return Guid.Parse(string.Join(string.Empty, reversedGuidString));
+
+            // Мой вариант с учетом Колиных замечаний
+            char[] charArray = guidStringWithoutDashes.ToCharArray();
             Array.Reverse(charArray);
-            string string2 = "";
-            for (int i = 0; i < 32; i++)
+            var guidReverseString = string.Empty;
+            for (int i = 0; i < charArray.Length; i++)
             {
-                string2 += charArray[i];
+                guidReverseString += charArray[i];
             }
-            return Guid.Parse(string2);
+            return Guid.Parse(guidReverseString);
         }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Guid myGuid = new Guid();
-            myGuid = Guid.NewGuid();
+            var guid = Guid.NewGuid();
             
-            Console.WriteLine(myGuid.ToString());
-            Console.WriteLine(ReverseGuid(myGuid));
+            Console.WriteLine(guid.ToString());
+            Console.WriteLine(ReverseGuid(guid));
 
+            Console.ReadLine();
         }
     }
 }
