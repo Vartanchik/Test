@@ -12,7 +12,7 @@ namespace OpenPage
         {
             var listOfEntities = new List<string>
             {
-                "fisrt",
+                "first",
                 "second",
                 "third",
                 "fourth",
@@ -21,21 +21,46 @@ namespace OpenPage
                 "seventh"
             };
             const int numberOfElementsOnPage = 2;
+            string stringFromUser;
+            int numberOfPage;
 
-            Console.WriteLine("Type number of page and press enter");
-            var numberOfPage = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("Page {0}:", numberOfPage);
-            for (int i = numberOfPage * numberOfElementsOnPage - numberOfElementsOnPage; i < numberOfPage * numberOfElementsOnPage; i++)
+            Console.WriteLine("Type number of page and press enter or type \"exit\" to close application");
+            do
             {
-                if (i < 0 || i >= listOfEntities.Count)
-                    break;
-                else
-                    Console.WriteLine(">{0}", listOfEntities[i]);
-            }
-            Console.WriteLine("End of page");
+                stringFromUser = Console.ReadLine();
+                if (Int32.TryParse(stringFromUser, out numberOfPage) && Convert.ToInt32(stringFromUser) >= 0)
+                {
+                    numberOfPage = Convert.ToInt32(stringFromUser);
+                    var indexOfFirstElement = numberOfPage * numberOfElementsOnPage - numberOfElementsOnPage;
+                    var indexOfLastElement = numberOfPage * numberOfElementsOnPage;
 
-            Console.ReadLine();
+                    Console.WriteLine($"Page {numberOfPage}:");
+                    for (int i = indexOfFirstElement; i < indexOfLastElement; i++)
+                    {
+                        if (i < 0 || i >= listOfEntities.Count)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine($">{listOfEntities[i]}");
+                        }
+                    }
+                    Console.WriteLine("End of page");
+
+                }
+                else if (stringFromUser == "exit")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("You entered incorrect value. Try again");
+                }
+
+                Console.WriteLine();
+            } while (stringFromUser != "exit");
+
         }
     }
 }
