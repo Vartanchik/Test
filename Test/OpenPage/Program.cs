@@ -8,16 +8,13 @@ namespace OpenPage
 {
     public class Program
     {
-        // сначала думал перенести инициализацию списка в этот метод,
-        // но потом подумал, что ему здесь не место
-        // или все таки он здесь должен быть?
-        private static void PageOpening(List<string> listOfEntities, int numberOfPage)
+        private static List<string> PageFormation(List<string> listOfEntities, int numberOfPage)
         {
+            var listOfEntitiesOnCurrentPage = new List<string>();
             const int numberOfElementsOnPage = 2;
             var indexOfFirstElement = numberOfPage * numberOfElementsOnPage - numberOfElementsOnPage;
             var indexOfLastElement = numberOfPage * numberOfElementsOnPage;
 
-            Console.WriteLine($"Page {numberOfPage}:");
             for (int i = indexOfFirstElement; i < indexOfLastElement; i++)
             {
                 if (i < 0 || i >= listOfEntities.Count)
@@ -26,11 +23,10 @@ namespace OpenPage
                 }
                 else
                 {
-                    Console.WriteLine($">{listOfEntities[i]}");
+                    listOfEntitiesOnCurrentPage.Add(listOfEntities[i]);
                 }
             }
-            Console.WriteLine("End of page");
-
+            return listOfEntitiesOnCurrentPage;
         }
 
         public static void Main(string[] args)
@@ -45,6 +41,7 @@ namespace OpenPage
                 "sixth",
                 "seventh"
             };
+
             string stringFromUser;
             Console.WriteLine("Type number of page and press enter or type \"exit\" to close application");
             do
@@ -54,7 +51,14 @@ namespace OpenPage
                 if (Int32.TryParse(stringFromUser, out int numberOfPage) && numberOfPage > 0)
                 {
                     numberOfPage = Convert.ToInt32(stringFromUser);
-                    PageOpening(listOfEntities, numberOfPage);
+
+                    Console.WriteLine($"Page {numberOfPage}:");
+                    var listOfEntitiesOnCurrentPage =  PageFormation(listOfEntities, numberOfPage);
+                    for (int i = 0; i < listOfEntitiesOnCurrentPage.Count; i++)
+                    {
+                        Console.WriteLine($">{listOfEntitiesOnCurrentPage[i]}");
+                    }
+                    Console.WriteLine("End of page");
                 }
                 else if (stringFromUser == "exit")
                 {
