@@ -8,9 +8,9 @@ namespace OpenPage
 {
     public class Program
     {
-        private static List<string> PageFormation(List<string> listOfEntities, int numberOfPage)
+        private static IEnumerable<T> GetPageOf<T>(List<T> listOfEntities, int numberOfPage)
         {
-            var listOfEntitiesOnCurrentPage = new List<string>();
+            var listOfEntitiesOnCurrentPage = new List<T>();
             const int numberOfElementsOnPage = 2;
             var indexOfFirstElement = numberOfPage * numberOfElementsOnPage - numberOfElementsOnPage;
             var indexOfLastElement = numberOfPage * numberOfElementsOnPage;
@@ -47,16 +47,15 @@ namespace OpenPage
             do
             {
                 stringFromUser = Console.ReadLine();
-                //int numberOfPage;  // правильно будет если эту переменную задам сразу в TryParse?
                 if (Int32.TryParse(stringFromUser, out int numberOfPage) && numberOfPage > 0)
                 {
                     numberOfPage = Convert.ToInt32(stringFromUser);
-
                     Console.WriteLine($"Page {numberOfPage}:");
-                    var listOfEntitiesOnCurrentPage =  PageFormation(listOfEntities, numberOfPage);
-                    for (int i = 0; i < listOfEntitiesOnCurrentPage.Count; i++)
+                    var listOfEntitiesOnCurrentPage = GetPageOf(listOfEntities, numberOfPage);
+
+                    for (int i = 0; i < listOfEntitiesOnCurrentPage.Count(); i++)
                     {
-                        Console.WriteLine($">{listOfEntitiesOnCurrentPage[i]}");
+                        Console.WriteLine($">{listOfEntitiesOnCurrentPage.ElementAt(i)}");
                     }
                     Console.WriteLine("End of page");
                 }
