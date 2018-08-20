@@ -31,16 +31,22 @@ namespace OpenPage
 
         public static void Main(string[] args)
         {
-            var listOfEntities = new List<string>
+            var listOfEntities = new List<ClassModel>();
+            for (int i = 1; i < 21; i++)
             {
-                "first",
-                "second",
-                "third",
-                "fourth",
-                "fifth",
-                "sixth",
-                "seventh"
-            };
+                listOfEntities.Add(new ClassModel($"name{i}", $"article{i}", 100 + i));
+            }
+
+            //var listOfEntities = new List<string>
+            //{
+            //    "first",
+            //    "second",
+            //    "third",
+            //    "fourth",
+            //    "fifth",
+            //    "sixth",
+            //    "seventh"
+            //};
 
             string stringFromUser;
             Console.WriteLine("Type number of page and press enter or type \"exit\" to close application");
